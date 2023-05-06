@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora IMC</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,300;0,400;0,600;0,800;1,200;1,300;1,400&display=swap');
+        body{
+            background: #212121;
+            font-family: 'Noto Sans', sans-serif;
+        }
+        .container{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .first-step{
+            background-color: #ffffff;
+            padding: 10px 30px;
+            border-radius: 5px;
+            font-size: 20px;
+            text-align: center;
+        }
+        .second-step{
+            background-color: #ffffff;
+            padding: 10px 30px;
+            border-radius: 5px;
+            font-size: 15px;
+            text-align: center;
+            
+        }
+        .final-step{
+            background-color: #ffffff;
+            padding: 10px 30px;
+            border-radius: 5px;
+            font-size: 15px;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+        }
+        button{
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+        .terminar{
+            margin-left: 2px;
+        }
+
+        button:hover{
+            background-color: #f1f1f1;
+            color: #333;
+        }
+        .first-step{
+            display: block;
+        }
+        .second-step{
+            display: none;
+        }
+        .final-step{
+            display: none;
+        }
+        input{
+            border: none;
+            box-sizing: border-box;
+            padding: 5px;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            font-size: 1.2em;
+            color: #555;
+            box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.1);
+            outline: none;
+            width: 200px;
+            margin-left: 10px;
+            text-align: right;
+        }
+        .resultado{
+            font-size: 20px;
+        }
+        .imput{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        h1{
+            font-size: 20px;
+        }
+        span{
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1></h1>
+    <div class="container">
+        <div class="first-step">
+            <p>Clique no botão para calcular seu IMC</p>
+            <button onclick="go(1,2)">Iniciar</button>
+        </div>
+        <div class="second-step">
+            <h1>Caluladora IMC</h1>
+            <hr>
+            <p>Digite sua Altura</p>
+            <div class="imput">            
+                <img src="fita.png" alt="" height="40" width="40" ><input type="number"id="altura"> <span>m</span>
+            </div>
+            <p>Digite seu Peso</p>
+            <div class="imput">
+                <img src="balanca.png" alt="" height="40" width="40" ><input type="number"id="peso"><span>kg</span>
+            </div>
+            <button onclick="validation()">calcular</button>
+        </div>
+        <div class="final-step">
+            <h1>Resultado</h1>
+            <hr>
+            <p id="resultado" class="resultado"></p>
+            <div class="imgresult">
+                <img id="img-resultado" src="1.png" alt="imagem do resultado" height="15%" width="15%">
+            </div>
+            <button onclick="go(3,2)">Calcular Novamente</button>
+            <button class="terminar" onclick="go(3,1)">Terminar</button>
+        </div>
+    </div>
+
+    <script>
+        const firstDiv = document.querySelector('.first-step');
+        const secondtDiv = document.querySelector('.second-step');
+        const finalDiv = document.querySelector('.final-step');
+        function go(currentStep,nextStep)
+        {
+            let dnone,dblock;
+            if(currentStep == 1){
+                dnone = firstDiv;
+            }
+            else if(currentStep == 2){
+                dnone = secondtDiv;
+            }
+            else{
+                dnone = finalDiv;
+            }
+            dnone.style.display = 'none';
+
+            if(nextStep == 1){
+                dblock = firstDiv;
+            }
+            else if(nextStep == 2){
+                dblock = secondtDiv;
+            }
+            else{
+                dblock = finalDiv;
+            }
+            dblock.style.display = 'block';
+        }
+        function validation()
+        {
+            const peso   = document.getElementById('peso');
+            const altura = document.getElementById('altura');
+            altura.style.border = 'none';
+            peso.style.border   = 'none';
+            if(!peso.value || !altura.value)
+            {
+                if(!peso.value && !altura.value)
+                {
+                    peso.style.border = '1px solid red';
+                    altura.style.border = '1px solid red';
+                }
+                else if(!peso.value)
+                {
+                    peso.style.border = '1px solid red';
+                }
+                else
+                {
+                    altura.style.border = '1px solid red';
+                }
+            }
+            else
+            {
+                let IMC = peso.value / (altura.value * altura.value);
+                const result = document.getElementById('resultado');
+                let imgResultado = document.getElementById('img-resultado');
+                
+                if(IMC < 18.5)
+                {
+                    console.log('Magreza | obesidade: 0');
+                    result.style.color = '#f5c503';
+                    result.innerHTML = 'Magreza | Obsidade: 0'
+                    imgResultado.src = "1.png";
+                }
+                else if(IMC >= 18.5 && IMC < 25){
+                    console.log('Normal | obesidade: 0');
+                    result.style.color = 'green';
+                    result.innerHTML = 'Normal | Obsidade: 0'
+                    imgResultado.src = "2.png";
+                    
+                }
+                else if(IMC >= 25 && IMC < 30){
+                    console.log('sobrepeso | obesidade: I');
+                    result.style.color = '#f5c503';
+                    result.innerHTML = 'Sobrepeso | Obsidade: I'
+                    imgResultado.src = "3.png";
+                }
+                else if(IMC >= 30 && IMC < 40){
+                    console.log('obesidade | obesidade: II');
+                    result.style.color = 'red';
+                    result.innerHTML = 'Obesidade | Obsidade: II'
+                    imgResultado.src = "4.png";
+                }
+                else{
+                    console.log('obesidade grave | obesidade: III');
+                    result.style.color = 'black';
+                    result.innerHTML = 'Obesidade grave | Obsidade: III'
+                    imgResultado.src = "5.png";
+                }
+                go(2,3);
+            }
+        }
+    </script>
+</body>
+</html>
+
